@@ -3,33 +3,31 @@ import gql from "graphql-tag";
 
 export default {
   FETCH_TACOS: gql`
-        {
-          tacos {
-            _id
-            name
-            description
-            rating
-            price
-            photo
-            restaurant {
-              _id
-              name
-              description
-            }
-          tacoCheckin {
-            _id
-            name
-            taco {
-              _id
-            }
-            description
-            rating
-          }
-          
-            
-          }
+    {
+      tacos {
+        _id
+        name
+        description
+        rating
+        price
+        photo
+        restaurant {
+          _id
+          name
+          description
         }
-      `,
+        tacoCheckin {
+          _id
+          name
+          taco {
+            _id
+          }
+          description
+          rating
+        }
+      }
+    }
+  `,
 
   IS_LOGGED_IN: gql`
     query IsUserLoggedIn {
@@ -58,6 +56,11 @@ export default {
           _id
           body
           rating
+          user {
+            _id
+            firstName
+            lastName
+          }
         }
       }
     }
@@ -86,6 +89,11 @@ export default {
           _id
           body
           rating
+          user {
+            _id
+            firstName
+            lastName
+          }
         }
       }
     }
@@ -137,6 +145,11 @@ export default {
           _id
           name
         }
+        user {
+          _id
+          firstName
+          lastName
+        }
       }
     }
   `,
@@ -150,6 +163,11 @@ export default {
         restaurant {
           _id
           name
+        }
+        user {
+          _id
+          firstName
+          lastName
         }
       }
     }
@@ -169,6 +187,11 @@ export default {
           name
           taco {
             _id
+            name
+            restaurant {
+              _id
+              name
+            }
           }
           description
           rating
@@ -176,5 +199,10 @@ export default {
       }
     }
   `
+
+  // ALL_TACOS_SEARCH: gql`
+  // query search($search: String!) {
+  //   tacos()
+  // }
 };
 

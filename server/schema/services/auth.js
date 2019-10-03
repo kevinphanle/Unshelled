@@ -95,7 +95,6 @@ const login = async data => {
 
 const verifyUser = async data => {
     try {
-        // console.log(data);
         const { token } = data;
         const decoded = jwt.verify(token, keys);
         const { id } = decoded;
@@ -121,10 +120,14 @@ const verifyUser = async data => {
                 return user.username;
             });
 
+            const tacoCheckin = await User.findById(id).then(user => {
+                return user.tacoCheckin;
+            });
+
             const _id = id;
 
              
-            return { isLoggedIn, _id, firstName, lastName, photo, username }
+            return { isLoggedIn, _id, firstName, lastName, photo, username, tacoCheckin }
         }
         
     } catch (err) {

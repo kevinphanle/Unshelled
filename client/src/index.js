@@ -60,12 +60,11 @@ const token = localStorage.getItem("auth-token");
 cache.writeData({
   data: {
     _id: localStorage.getItem("currentUserId"),
-    isLoggedIn: Boolean(token),
-    cart: [],
-    firstName: "",
-    lastName: "",
-    photo: "",
-    username: ""
+    isLoggedIn: token ? true : false,
+    firstName: localStorage.getItem("currentUserFName"),
+    lastName: localStorage.getItem("currentUserLName"),
+    photo: localStorage.getItem("currentUserPhoto"),
+    username: localStorage.getItem("currentUserUsername"),
   }
 });
 
@@ -76,16 +75,14 @@ if (token) {
     // user is loggedIn
     .mutate({ mutation: VERIFY_USER, variables: { token } })
     .then(({ data }) => {
-       
       cache.writeData({
         data: {
           _id: data.verifyUser._id,
           isLoggedIn: data.verifyUser.isLoggedIn,
-          cart: [],
           firstName: data.verifyUser.firstName,
           lastName: data.verifyUser.lastName,
           photo: data.verifyUser.photo,
-          username:data.verifyUser.username
+          username: data.verifyUser.username,
         }
       });
     });
@@ -95,7 +92,12 @@ if (token) {
   cache.writeData({
     data: {
       isLoggedIn: false,
-      cart: []
+      _id: null,
+      firstName: "",
+      lastName: "",
+      photo: "",
+      username:"",
+      tacoCheckin: ""
     }
   });
 }

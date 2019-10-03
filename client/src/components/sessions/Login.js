@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import Mutations from "../../graphql/mutations";
 import { Link } from "react-router-dom";
-import { onError } from "apollo-link-error";
 
 
 export default class Login extends Component {
@@ -22,17 +21,13 @@ export default class Login extends Component {
 
 
     updateCache(client, { data }) {
-        // console.log(data);
-         
         client.writeData({
-            data: { isLoggedIn: data.login.isLoggedIn, _id: data.login._id, photo: data.login.photo, firstName: data.login.firstName, lastName: data.login.lastName }
+            data: { isLoggedIn: data.login.isLoggedIn, _id: data.login._id, photo: data.login.photo, firstName: data.login.firstName, lastName: data.login.lastName, username: data.login.username }
         });
-         
     }
 
 
     render() {
-      // debugger
       const errors = this.state.errors ? (
         <li className='li-errors'>{this.state.errors.graphQLErrors[0].message}</li>
       ) : (
@@ -43,9 +38,13 @@ export default class Login extends Component {
             <Mutation
                 mutation={Mutations.LOGIN_USER}
                 onCompleted={data => {
-                    const { token } = data.login;
+                    const { token, _id, firstName, lastName, photo, username } = data.login;
                     localStorage.setItem("auth-token", token);
-// debugger
+                    localStorage.setItem("currentUserId", _id);
+                    localStorage.setItem("currentUserFName", firstName);
+                    localStorage.setItem("currentUserLName", lastName);
+                    localStorage.setItem("currentUserPhoto", photo);
+                    localStorage.setItem("currentUserUsername", username);
                     this.props.history.push("/");
                 }}
                 onError={ err => {
@@ -57,7 +56,7 @@ export default class Login extends Component {
             >
                 {loginUser => (
                     <div className="login-page-wrap">
-                        <div className="login-form-container">
+                <div className="animated fadeInRightBig login-form-container">
                             <div className="login-form-top">
                                 <div className="login-logo">
                                     UNSHELLED
@@ -75,8 +74,6 @@ export default class Login extends Component {
                                       password: this.state.password
                                     }
                                   });
-                                   
-                                //  console.log(onError);
                                 }}
                             >
                                 <button className="login-form-demo" onClick={e => {

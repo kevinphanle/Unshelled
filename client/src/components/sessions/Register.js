@@ -23,12 +23,11 @@ export default class Register extends Component {
     }
 
     updateCache(client, { data }) {
-        // console.log(data);
         client.writeData({
-            data: { isLoggedIn: data.register.isLoggedIn, id: data.register._id, photo: data.register.photo }
+            data: { isLoggedIn: data.register.isLoggedIn, _id: data.register._id, photo: data.register.photo, firstName: data.register.firstName, lastName: data.register.lastName, username: data.register.username }
         });
     }
-
+ 
     render() {
       const errors = this.state.errors ? (
         <li className='li-errors'>{this.state.errors.graphQLErrors[0].message}</li>
@@ -41,8 +40,13 @@ export default class Register extends Component {
             <Mutation
                 mutation={Mutations.REGISTER_USER}
                 onCompleted={data => {
-                    const { token } = data.register;
+                    const { token, _id, firstName, lastName, photo, username } = data.register;
                     localStorage.setItem("auth-token", token);
+                    localStorage.setItem("currentUserId", _id);
+                    localStorage.setItem("currentUserFName", firstName);
+                    localStorage.setItem("currentUserLName", lastName);
+                    localStorage.setItem("currentUserPhoto", photo);
+                    localStorage.setItem("currentUserUsername", username);
                     this.props.history.push("/");
                 }}
                 onError={ err => {
@@ -53,7 +57,7 @@ export default class Register extends Component {
             >
                 {registerUser => (
                     <div className="login-page-wrap">
-                        <div className="signup-form-container">
+                        <div className="animated fadeInRightBig signup-form-container">
                         <div className="login-form-top">
                             <div className="login-logo">
                                 UNSHELLED

@@ -5,14 +5,18 @@ body {
 
 #root {
     width: 100%;
-    height: 80vh;
+    min-height: 100vh;
+    position: relative;
 }
 
+@import "./animate.css";
 @import "./reset.css";
 @import "./navbar.css";
+@import "./static.css";
 @import "./session.css";
 @import "./home.css";
 @import "./user-profile.css";
 @import "./footer.css";
 @import "./restaurant.css";
-@import "./taco.css"
+@import "./taco.css";
+@import "./TacoShow.scss";

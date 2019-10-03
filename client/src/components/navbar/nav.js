@@ -2,11 +2,11 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Query, ApolloConsumer } from 'react-apollo'
 import Queries from "../../graphql/queries";
-// import { LocalState } from "apollo-client/core/LocalState";
+// import Search from '../search/search';
+
 const { IS_LOGGED_IN } = Queries;
 
 const Nav = (props) => {
-     
     return (
         <ApolloConsumer>
             {client => {
@@ -15,15 +15,14 @@ const Nav = (props) => {
                         <nav className="navbar">
                             <div className="leftside-nav">
                                 <div className="nav-logo">
-                                    <Link to="/" className="nav-logo-title">Unshelled</Link>
-                                    <span className="nav-logo-span">Eat Socially</span>
+                                    <Link to="/home" className="animated flipInY nav-logo-title">Unshelled</Link>
+                                    <span className="animated fadeInLeftBig nav-logo-span ">Eat Socially</span>
                                 </div>
                                 <div className="navlink">
                                     <Link className="navlink-item" to="/restaurants">Restaurants</Link>
                                     <Link className="navlink-item" to="/tacos">Tacos</Link>
                                 </div>
                             </div>
-                        
                             <Query query={IS_LOGGED_IN}>
                                 {
                                     ({ loading, error, data }) => {
@@ -31,6 +30,7 @@ const Nav = (props) => {
                                         if (error) return <p>Error</p>;
                                         if (data.isLoggedIn) {
                                             return (
+                        
                                                 <div className="rightside-nav">
                                                     <div className="nav-dropdown">
                                                         <img className="nav-avatar" src={data.photo} alt="" />
@@ -42,7 +42,11 @@ const Nav = (props) => {
                                                                 <div onClick={e => {
                                                                     e.preventDefault();
                                                                     localStorage.removeItem("auth-token");
-                                                                    
+                                                                    localStorage.removeItem("currentUserId");
+                                                                    localStorage.removeItem("currentUserFName");
+                                                                    localStorage.removeItem("currentUserLName");
+                                                                    localStorage.removeItem("currentUserUsername");
+                                                                    localStorage.removeItem("currentUserPhoto");
                                                                     client.writeData({ data: { isLoggedIn: false } });
                                                                     props.history.push("/");
                                                                 }}>Logout</div>
@@ -50,17 +54,16 @@ const Nav = (props) => {
                                                         </div>
                                                     </div>
                                                 
-
-                                                    {/* <div className="searchbar-container">
-                                                        <input type="text" placeholder="Search for tacos"></input>
-                                                    </div> */}
-
                                                     <button
                                                         className="logout-btn"
                                                         onClick={e => {
                                                             e.preventDefault();
                                                             localStorage.removeItem("auth-token");
-                                                            
+                                                            localStorage.removeItem("currentUserId");
+                                                            localStorage.removeItem("currentUserFName");
+                                                            localStorage.removeItem("currentUserLName");
+                                                            localStorage.removeItem("currentUserUsername");
+                                                            localStorage.removeItem("currentUserPhoto");
                                                             client.writeData({ data: { isLoggedIn: false } });
                                                             props.history.push("/login");
                                                         }}

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import Queries from "../../graphql/queries";
-import RestaurantCSS from "./RestaurantCSS.css"
-import { Link } from "react-router-dom";
-import { userInfo } from "os";
+// import RestaurantCSS from "./RestaurantCSS.css"
+// import { Link } from "react-router-dom";
+// import { userInfo } from "os";
 const mongoose = require('mongoose');
 const User = mongoose.model("users")
 const { FETCH_USERS, IS_LOGGED_IN } = Queries;
@@ -24,7 +24,6 @@ class RestaurantLikers extends Component {
                 {({ loading, error, data }) => {
                      if (loading) return "Loading...";
                     if (error) return `Error! ${error.message}`;
-                    console.log(data);
                     return (
                         
             <div className="rest-show-right">
@@ -42,7 +41,6 @@ class RestaurantLikers extends Component {
                             onClick={(e) => {
                                 e.preventDefault();
                                 this.state.likers.push(data._id)
-                                console.log(this.state)
                             }}
                         >
                         Like This Restaurant
